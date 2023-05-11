@@ -3,8 +3,7 @@ package Kegiatan;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.regex.*;
 
 public class DataPraktikan {
     private static HashMap<String, String> tabelData = new HashMap<>();
@@ -14,7 +13,7 @@ public class DataPraktikan {
 
         System.out.println("Log in");
 
-        DataPraktikan dataPraktikan = new DataPraktikan(); // memanggil kelas data praktikan
+        DataPraktikan dataPraktikan = new DataPraktikan();
         Scanner in = new Scanner(System.in);
         int pilih = 0;
 
@@ -24,15 +23,15 @@ public class DataPraktikan {
 
             while (pilih != 9) {
                 System.out.println("List Data Praktikan : ");
-                System.out.println("1. Tambah Data");
-                System.out.println("2. Tampil Data");
-                System.out.println("3. List NIM Praktikan");
-                System.out.println("4. List nama Asisten");
-                System.out.println("5. Total Data");
-                System.out.println("6. Hapus Data");
-                System.out.println("7. Edit Data");
-                System.out.println("8. Cari Asisten Lab");
-                System.out.println("9. Logout");
+                System.out.println("[1] Tambah Data");
+                System.out.println("[2] Tampil Data");
+                System.out.println("[3] List NIM Praktikan");
+                System.out.println("[4] List nama Asisten");
+                System.out.println("[5] Total Data");
+                System.out.println("[6] Hapus Data");
+                System.out.println("[7] Edit Data");
+                System.out.println("[8] Cari Asisten Lab");
+                System.out.println("[9] Logout");
                 System.out.println("Pilih : ");
                 pilih = in.nextInt();
 
@@ -77,7 +76,7 @@ public class DataPraktikan {
                         System.out.println("\n");
                         break;
                     case 8:
-                        seach();
+                        search();
                         break;
                     case 9:
                         logout();
@@ -95,7 +94,7 @@ public class DataPraktikan {
         Scanner in = new Scanner(System.in);
         boolean loop = true;
         System.out.println("Tambahkan Data Baru");
-        do { //menambahkan 3 data sekaligus
+        do {
             System.out.print("Masukkan NIM " +  ": ");
             nimPraktikan = in.nextLine();
             System.out.print("Masukkan Nama Asisten " +  ": ");
@@ -121,14 +120,16 @@ public class DataPraktikan {
     }
 
     public static void listNimPraktikan() {
+        System.out.println("List NIM Praktikan: ");
         for (String nimPraktikan : tabelData.keySet()) {
-            System.out.println(nimPraktikan);
+            System.out.println("- "+nimPraktikan);
         }
     }
 
     public static void listNamaAsisten() {
+        System.out.println("List Nama Asisten :");
         for (String namaAsisten : tabelData.values()) {
-            System.out.println(namaAsisten);
+            System.out.println("- "+namaAsisten);
         }
     }
 
@@ -177,6 +178,18 @@ public class DataPraktikan {
             System.out.println("NIM yang dimasukkan tidak ditemukan.");
         }
     }
+    public static void search(){
+        listNamaAsisten();
+        Scanner in = new Scanner(System.in);
+        System.out.print("Nama Asisten yang ingin dicari : ");
+        String namaAsisten = in.nextLine();
+        tabelData.forEach((key,value)->{
+            if(value.equals(namaAsisten)){
+                System.out.println("- "+key);
+            }
+        });
+    }
+
 
     public boolean login() {
         Scanner in = new Scanner(System.in);
@@ -192,35 +205,25 @@ public class DataPraktikan {
                 String subEmail = email.substring(email.length() - 10);
             }
             if(email.length()<=10) {
-                throw new Exception("Email anda tidak sesuai");
+                throw new Exception("Email anda terlalu pendek");
             }
             String subEmail = email.substring(email.length()-10);
             if(!(subEmail.equals("@umm.ac.id"))){
-                throw new Exception ("Email tidak sesuai format");
+                throw new Exception ("Email bukan email umm");
             }else {
-                if(password.equals("093")) {
+                if(email.equals("akarim@umm.ac.id")&&password.equals("093")) {
                     condition = true;
                 }
+                throw new Exception("Email dan Password anda tidak sesuai");
             }
         }catch (Exception e){
             System.out.println(e+" ");
         }
         return condition;
     }
-
     public static void logout() {
         System.out.println("Anda telah keluar dari program.");
         System.exit(0);
-    }
-    public static void seach(){
-        Scanner in = new Scanner(System.in);
-        System.out.print("Nama Asisten yang ingin dicari : ");
-        String namaAsisten = in.nextLine();
-        tabelData.forEach((key,value)->{
-            if(value.equals(namaAsisten)){
-                System.out.println("- "+key);
-            }
-        });
     }
 
 }
